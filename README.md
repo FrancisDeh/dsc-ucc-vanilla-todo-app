@@ -4,3 +4,4 @@ Developer Student Club, University of Cape Coast Ghana, web project during web d
 A simple todo app using JavaScript for DOM manipulation; adding a todo, deleting a todo, filtering through todos.
 Uses the Speech Synthesis API to announce event occurences such "task successfully added" etc.
 
+Screenshots are provided inside the "Screenshots" folder.
