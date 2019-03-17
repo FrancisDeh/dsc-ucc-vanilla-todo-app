@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DSC UCC | Welcome</title>
+    <!-- Styles -->
+    <link href="css/materialize/css/materialize.min.css" rel="stylesheet">
+    <link href="fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <style>
+
+        html {
+            font-family: 'Palatino Linotype', sans-serif;
+
+        }
+        .background {
+            background-image: url( 'images/bg-2.jpg' );
+            background-repeat:no-repeat;
+            background-position:100% 100%;
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+            background-attachment: fixed;
+        }
+
+        input[type=text] {
+            font-size: 40px !important;
+            color: green;
+            font-family: Consolas;
+        }
+
+        .fa-microphone {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="grey lighten-4 background">
+<!--Header-->
+<nav style="opacity: 0.8">
+    <div class="nav-wrapper white" >
+
+        <a href="#" class="brand-logo blue-text" style="margin-left: 120px;"><i class="fa fa-check-circle-o blue-text"></i>vanilla 2do
+        </a>
+
+        <ul class="right hide-on-small-only">
+            <li class="active"><a href="#" class="red-text "> <b><i class="fa fa-home"></i> home</b></a></li>
+            <li class=""><a href="#" class="red-text " id="searchIcon"><b><i class="fa fa-search fa-2x"></i> </b></a></li>
+            <li class=""><a href="#" class="red-text">
+                <img src="images/user.jpg" style="width: 50px; height: 50px; border-radius: 50%; margin-bottom: -20px;">
+                <b style="margin-top: -10px" id="username">Welcome</b>
+            </a>
+            </li>
+            <li class=""><a href="#" class="blue-text "> <b><i class="fa fa-clock-o"></i> <span id="clock">00:00 am</span></b></a></li>
+
+        </ul>
+    </div>
+</nav>
+
+<!-- Input Section-->
+<div class="row" id="taskDiv">
+    <div class="col l10 offset-l1">
+        <div class="card horizontal" style="opacity: 0.8">
+            <div class="card-stacked">
+                <div class="card-content">
+                    <p class="flow-text"> Add Task</p>
+                    <form>
+                        <div class="row input-field">
+                            <input type="text" autofocus="autofocus">
+                        </div>
+                        <div class="row center">
+                            <button type="submit"class="btn green accent-2"> add </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="display: none;" id="searchDiv">
+    <div class="col l10 offset-l1">
+        <div class="card horizontal" style="opacity: 0.8">
+            <div class="card-stacked">
+                <div class="card-content">
+                    <p class="flow-text"> Search for Task</p>
+                    <form>
+                        <div class="row input-field">
+                            <input type="text" autofocus="autofocus" id="searchInput">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Task Card-->
+<div class="row">
+    <div class="col l10 offset-l1">
+        <div class="card horizontal" style="opacity: 0.8">
+            <div class="card-stacked">
+                <div class="card-content">
+                    <p class="flow-text">My Tasks (<span id="taskCount">0</span>)</p>
+                    <hr>
+                    <ul class="collection" id="tasks">
+                        <!--<li class="collection-item avatar">-->
+                            <!--<i class="fa fa-microphone circle blue-text"></i>-->
+                            <!--<span class="title"><b>Learn CSS and HTML</b></span>-->
+                            <!--<p>created on 30th September, 2018</p>-->
+                            <!--<a href="#!" class="secondary-content"><i class="fa fa-trash-o red-text"></i></a>-->
+                        <!--</li>-->
+                        <!--<li class="collection-item avatar">-->
+                            <!--<i class="fa fa-microphone circle blue-text"></i>-->
+                            <!--<span class="title"><b>Learn Javascript</b></span>-->
+                            <!--<p>created on 30th September, 2018</p>-->
+                            <!--<a href="#!" class="secondary-content"><i class="fa fa-trash-o red-text"></i></a>-->
+                        <!--</li>-->
+                        <!--<li class="collection-item avatar">-->
+                            <!--<i class="fa fa-microphone circle blue-text"></i>-->
+                            <!--<span class="title"><b>Build a todo app</b></span>-->
+                            <!--<p>created on 30th September, 2018</p>-->
+                            <!--<a href="#!" class="secondary-content"><i class="fa fa-trash-o red-text"></i></a>-->
+                        <!--</li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="css/materialize/js/materialize.min.js"></script>
+
+<script type="text/javascript">
+    let username = 'New User';
+
+    //array to hold tasks
+    let tasks = [];
+
+    //ask for username
+    username = prompt('Enter name: ');
+    document.getElementById('username').innerText = username;
+
+    pronounceTask('Welcome ' + username +'. Begin by adding tasks.');
+    //set task count
+    function setTaskCount() {
+        document.getElementById('taskCount').innerText = tasks.length.toString();
+    }
+    //set the time
+    function getTime() {
+        return new Date().toLocaleTimeString();
+    }
+
+    function setClock() {
+        document.getElementById('clock').innerText = getTime();
+    }
+
+    setTaskCount();
+    setInterval(setClock,1000);
+
+    //speech synthesis
+    function pronounceTask(message) {
+        speechSynthesis.speak(new SpeechSynthesisUtterance(message));
+    }
+
+    //creating task
+    function validateTask(task) {
+        //task cannot be empty
+        if (task === ''){
+            pronounceTask("Sorry. Task cannot be empty.")
+            alert("Sorry. Task cannot be empty");
+
+
+            //task cannot be created twice
+        } else if (tasks.includes(task.toLowerCase())){
+            pronounceTask("Sorry. Task already exist.")
+            alert("Sorry. Task already exist.");
+        } else {
+            createTask(task);
+        }
+    }
+
+    function createTask(task) {
+        let ul = document.getElementById('tasks');
+        let li = createListElement();
+        li.appendChild(createMicrophoneElement());
+        li.appendChild(createTitleElement(task));
+        li.appendChild(createDateElement());
+        li.appendChild(createDeleteElement());
+        ul.appendChild(li);
+        tasks.push(task.toLowerCase());
+        setTaskCount();
+        pronounceTask("Task successfully created.");
+    }
+
+    //element creation functions
+    function createListElement(){
+        let li = document.createElement('li');
+        li.className = 'collection-item avatar';
+        return li;
+    }
+
+    function createMicrophoneElement(){
+        let i = document.createElement('i');
+        i.className = 'fa fa-microphone circle amber-text';
+        return i;
+    }
+
+    function createTitleElement(task){
+        let span = document.createElement('span');
+        span.className = 'title';
+        span.innerHTML = '<b>' + task + '</b>';
+        return span;
+    }
+
+    function createDateElement() {
+        let p = document.createElement('p');
+        p.innerText = 'created on ' + new Date().toDateString() + ', ' + new Date().toLocaleTimeString();
+        return p;
+    }
+
+    function createDeleteElement() {
+        let a = document.createElement('a');
+        a.className = 'secondary-content';
+        a.innerHTML = "<i class = 'fa fa-trash-o red-text'></i>";
+        return a;
+    }
+
+    //form submit
+    let form = document.forms[0].addEventListener('submit', event => {
+        event.preventDefault();
+       validateTask(event.target[0].value);
+       //empty the input button
+       event.target[0].value = '';
+    });
+
+    //pronouncing tasks and deleting tasks
+
+    let ul = document.getElementById('tasks');
+    ul.addEventListener('click', event => {
+
+       if(event.target.classList.contains('fa-microphone')){
+           console.log(event.target.parentElement.children[1].innerText);
+           pronounceTask(event.target.parentElement.children[1].innerText);
+       } else if (event.target.classList.contains('fa-trash-o')){
+           console.log(event.target.parentElement.parentElement);
+           let li = event.target.parentElement.parentElement;
+           if(confirm("Are you sure you want to delete task, " + li.innerText + '?')){
+
+               let index;
+               for(let i = 0; i < tasks.length; i++ ) {
+                   if(tasks[i] === li.children[1].innerText.toLowerCase()){
+                       index = i;
+                       break;
+                   }
+               }
+               console.log(index);
+               //delete from array
+               tasks.splice(index, 1);
+               console.log(tasks);
+               //remove from dom
+               setTaskCount();
+               ul.removeChild(li);
+               pronounceTask('Task successfully deleted.');
+           }
+       }
+    });
+
+    //toggle search icon
+    let isSearching = false;
+    document.getElementById('searchIcon').addEventListener('click', event => {
+        event.preventDefault();
+        if(isSearching){
+            document.getElementById('searchDiv').style.display = 'none';
+            document.getElementById('taskDiv').style.display = 'block';
+            isSearching = false;
+        } else {
+            document.getElementById('searchDiv').style.display = 'block';
+            document.getElementById('taskDiv').style.display = 'none';
+            isSearching = true;
+        }
+
+    });
+
+
+
+    //listen to search event
+    document.getElementById('searchInput').addEventListener('input', event => {
+        console.log(event.target.value);
+        let value = event.target.value.toLowerCase();
+        let items = ul.getElementsByTagName('li');
+        Array.from(items).forEach(item => {
+            if(item.children[1].innerText.toLowerCase().indexOf(value) !== -1){
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
